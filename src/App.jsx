@@ -8,7 +8,6 @@ import {
   Table,
   Button,
   Card,
-  VStack,
   Text,
   Center,
   Spinner,
@@ -17,11 +16,9 @@ import {
   DialogBody,
   DialogCloseTrigger,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogRoot,
   DialogTitle,
-  DialogTrigger,
 } from "./components/ui/dialog";
 
 import { Slider } from "./components/ui/slider";
@@ -103,21 +100,24 @@ function App() {
 
   return (
     <Flex
+      padding={'20px'}
       direction="column"
       align="center"
       justify="center"
       height="100vh"
       gap="20px"
+      color={'black'}
     >
-      <Input
+    <Input
+        marginTop={"50px"}
+        height={"70px"}
         placeholder="Search tags..."
         value={searchTerm}
         onChange={handleSearch}
         width="50%"
         marginBottom="10px"
-        color={"white"}
+        color={"black"}
       />
-
       <Flex gap={6}>
         <Box
           width="700px"
@@ -148,7 +148,7 @@ function App() {
           border="2px solid #ccc"
           borderRadius="10px"
           overflow="auto"
-          color={"white"}
+          color={'black'}
         >
           <Flex
             margin={2}
@@ -219,15 +219,15 @@ function App() {
 
       {/* dialog */}
       <DialogRoot
-        size="cover"
+        size='cover'
         placement="center"
         motionPreset="slide-in-bottom"
-        scrollBehavior="inside"
+        // scrollBehavior="inside"
         open={isOpen}
       >
         <DialogContent color="white">
           <DialogHeader>
-            <DialogTitle>Recommendations</DialogTitle>
+            <DialogTitle color={'black'}>Recommendations</DialogTitle>
             <DialogCloseTrigger onClick={() => setIsOpen(false)} />
           </DialogHeader>
           <DialogBody>
@@ -243,8 +243,8 @@ function App() {
                   overflow="hidden"
                   maxW="xl"
                   key={index}
-                  width={"300px"}
-                  // height={"300px"}
+                  width={"250px"}
+                  border={"2px solid black"}
                   position={"relative"}
                 >
                   <Box>
