@@ -11,6 +11,7 @@ import {
   Text,
   Center,
   Spinner,
+  HStack ,
 } from "@chakra-ui/react";
 import {
   DialogBody,
@@ -19,10 +20,21 @@ import {
   DialogHeader,
   DialogRoot,
   DialogTitle,
+  DialogFooter,
 } from "./components/ui/dialog";
+
+import {
+  PaginationItems,
+  PaginationNextTrigger,
+  PaginationPageText,
+  PaginationPrevTrigger,
+  PaginationRoot,
+} from "./components/ui/pagination";
 
 import { Slider } from "./components/ui/slider";
 import axios from "axios";
+
+import animation from "./assets/Animation.webm";
 
 function App() {
   const tags = data;
@@ -36,6 +48,8 @@ function App() {
   const [error, setError] = useState(null);
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const [page, setPage] = useState(1)
 
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
@@ -89,7 +103,7 @@ function App() {
       );
       console.log(reponse.data.recommendations);
       setResponse(reponse.data.recommendations);
-      setIsOpen(true)
+      setIsOpen(true);
     } catch (err) {
       console.log(err);
       setError("Error submitting data");
@@ -100,15 +114,15 @@ function App() {
 
   return (
     <Flex
-      padding={'20px'}
+      padding={"20px"}
       direction="column"
       align="center"
       justify="center"
       height="100vh"
       gap="20px"
-      color={'black'}
+      color={"black"}
     >
-    <Input
+      <Input
         marginTop={"50px"}
         height={"70px"}
         placeholder="Search tags..."
@@ -148,7 +162,7 @@ function App() {
           border="2px solid #ccc"
           borderRadius="10px"
           overflow="auto"
-          color={'black'}
+          color={"black"}
         >
           <Flex
             margin={2}
@@ -219,15 +233,16 @@ function App() {
 
       {/* dialog */}
       <DialogRoot
-        size='cover'
+        size="cover"
         placement="center"
         motionPreset="slide-in-bottom"
-        // scrollBehavior="inside"
+        scrollBehavior="inside"
+        overflow="hidden"
         open={isOpen}
       >
         <DialogContent color="white">
           <DialogHeader>
-            <DialogTitle color={'black'}>Recommendations</DialogTitle>
+            <DialogTitle color={"black"}>Recommendations</DialogTitle>
             <DialogCloseTrigger onClick={() => setIsOpen(false)} />
           </DialogHeader>
           <DialogBody>
@@ -248,10 +263,10 @@ function App() {
                   position={"relative"}
                 >
                   <Box>
-                    <Card.Body >
+                    <Card.Body>
                       <Card.Title mb="2">{item.title}</Card.Title>
                       <Text>Tags :</Text>
-                      <Flex mt={2} flexDirection={'column'} gap={1}>
+                      <Flex mt={2} flexDirection={"column"} gap={1}>
                         {Object.entries(item.tags).map(([key, value], idx) => (
                           <Badge key={idx} colorPalette={"pink"}>
                             {key}: {value.toFixed(2)}
@@ -262,7 +277,7 @@ function App() {
                     <Card.Footer
                       display={"flex"}
                       flexDirection={"column"}
-                      alignItems={'start'}
+                      alignItems={"start"}
                     >
                       <Text>Similarity:</Text>
                       <Text>{item.similarity}</Text>{" "}
@@ -272,14 +287,50 @@ function App() {
               ))}
             </Flex>
           </DialogBody>
+          <DialogFooter>
+            <Flex alignItems={"center"} justifyContent={"center"}>
+              {/* <PaginationRoot
+                count={20}
+                pageSize={2}
+                defaultPage={1}
+                variant="solid"
+                page={page}
+                onPageChange={(e) => setPage(e.page)}
+              >
+                <HStack>
+                  <PaginationPrevTrigger />
+                  <PaginationItems />
+                  <PaginationNextTrigger />
+                </HStack>
+              </PaginationRoot> */}
+            </Flex>
+          </DialogFooter>
         </DialogContent>
       </DialogRoot>
 
-      <Box pos="absolute" inset="0" bg="bg/80" hidden={!loading}>
+      <Flex
+        justify={"center"}
+        alignItems={"center"}
+        flexDirection={"column"}
+        pos="absolute"
+        inset="0"
+        bg="bg/80"
+        hidden={!loading}
+      >
         <Center h="full">
-          <Spinner color="teal.500" />
+          <Flex
+            justify={"center"}
+            alignItems={"center"}
+            flexDirection={"column"}
+          >
+            <Text color={"white"}>We are searching for your film</Text>
+            <video width="200px" autoPlay loop muted>
+              <source src={animation} type="video/webm" />
+            </video>
+            <Text color={"white"}>Just in a minute :))</Text>
+          </Flex>
         </Center>
-      </Box>
+      </Flex>
     </Flex>
   );
 }
